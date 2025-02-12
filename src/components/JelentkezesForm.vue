@@ -43,7 +43,7 @@
     },
     methods: {
       async fetchRegistrations() {
-        const response = await fetch('/api/jelentkezesek');
+        const response = await fetch('/api/jelentkezesek.php');
         const data = await response.json();
         this.registrations = data;
       },
@@ -53,7 +53,7 @@
         this.tours = data;
       },
       async register() {
-        const response = await fetch('/api/jelentkezesek', {
+        const response = await fetch('/api/jelentkezesek.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(this.registration),
@@ -64,7 +64,7 @@
         }
       },
       async deleteRegistration(id) {
-        const response = await fetch(`/api/jelentkezesek?id=${id}`, {
+        const response = await fetch(`/api/jelentkezesek.php?id=${id}`, {
           method: 'DELETE',
         });
         if (response.ok) {

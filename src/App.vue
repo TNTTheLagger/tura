@@ -1,56 +1,55 @@
 <template>
-  <div id="app">
+  <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Túrák</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Túrák</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Jelentkezések</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Kapcsolat</a>
-            </li>
-          </ul>
-        </div>
+        <img src="./assets/logo.png" alt="Logo" class="logo" />
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#" @click="activeTab = 'turak'">Túrák</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" @click="activeTab = 'jelentkezes'">Jelentkezések</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" @click="activeTab = 'kapcsolat'">Kapcsolat</a></li>
+        </ul>
       </div>
     </nav>
-    <div class="container mt-5">
-      <div class="row">
-        <div class="col-md-6">
-          <Turak />
-        </div>
-        <div class="col-md-6">
-          <Jelentkezesek />
-        </div>
-      </div>
-    </div>
+
+    <TuraForm v-if="activeTab === 'turak'" @update-turak="fetchTurak" />
+    <JelentkezesForm v-if="activeTab === 'jelentkezes'" :turak="turak" @update-jelentkezesek="fetchJelentkezesek" />
   </div>
 </template>
 
 <script>
-import Turak from './components/Turak.vue';
-import Jelentkezesek from './components/Jelentkezesek.vue';
+import TuraForm from "@/components/TuraForm.vue";
+import JelentkezesForm from "@/components/JelentkezesForm.vue";
 
 export default {
-  name: 'App',
   components: {
-    Turak,
-    Jelentkezesek
+    TuraForm,
+    JelentkezesForm
+  },
+  data() {
+    return {
+      turak: [],
+      activeTab: 'turak'
+    };
+  },
+  mounted() {
+    this.fetchTurak();
+  },
+  methods: {
+    async fetchTurak() {
+      let response = await fetch('/api/turak.php');
+      this.turak = await response.json();
+    },
+    async fetchJelentkezesek() {
+      let response = await fetch('/api/jelentkezesek.php');
+      this.jelentkezesek = await response.json();
+    }
   }
 };
 </script>
+
+<style>
+.logo {
+  width: 100px;
+  margin-right: 20px;
+}
+</style>
