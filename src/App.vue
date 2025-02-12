@@ -25,7 +25,7 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Elérhető helyek száma</label>
-            <input type="number" class="form-control" v-model.number="newTura.elerheto_helyek" min="1" required />
+            <input type="number" class="form-control" v-model.number="newTura.elerheto_hely" min="1" required />
           </div>
           <button class="btn btn-warning">Hozzáadás</button>
         </form>
@@ -108,7 +108,7 @@ export default {
       this.fetchTurak();
     },
     async submitJelentkezes() {
-      await fetch('/api/jelentkezes.php', {
+      await fetch('/api/jelentkezesek.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
