@@ -48,33 +48,19 @@
     },
     methods: {
       async fetchTours() {
-        try {
-          const response = await fetch('http://your-backend-api/tours');
-          const data = await response.json();
-          if (response.ok) {
-            this.tours = data;
-          } else {
-            alert('Failed to fetch tours');
-          }
-        } catch (error) {
-          alert('Error: ' + error);
-        }
+        const response = await fetch('/api/turak');
+        const data = await response.json();
+        this.tours = data;
       },
       async addTour() {
-        try {
-          const response = await fetch('http://your-backend-api/tours', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(this.newTour),
-          });
-          if (response.ok) {
-            this.fetchTours();
-            this.newTour = { nev: '', tav: '', elerheto_hely: '' }; // Clear form after submission
-          } else {
-            alert('Failed to add tour');
-          }
-        } catch (error) {
-          alert('Error: ' + error);
+        const response = await fetch('/api/turak', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(this.newTour),
+        });
+        if (response.ok) {
+          this.fetchTours();
+          this.newTour = { nev: '', tav: '', elerheto_hely: '' };
         }
       },
       toggleDetails(tourId) {
